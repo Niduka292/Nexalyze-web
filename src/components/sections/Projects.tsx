@@ -43,7 +43,7 @@ export default function Products() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   const handleVisit = () => {
-    window.open("https://supplypulse.io", "_blank", "noopener,noreferrer");
+    window.open("https://supplypulse.netlify.app", "_blank", "noopener,noreferrer");
   };
 
   const handleContact = () => {

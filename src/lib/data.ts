@@ -249,7 +249,7 @@ export const PROJECTS: Project[] = [
     status: "Deployed",
     color: "from-rose-950 to-pink-800",
     githubUrl: "https://github.com",
-    liveUrl: "#",
+    liveUrl: "https://supplypulse.netlify.app",
   },
 ];
 
