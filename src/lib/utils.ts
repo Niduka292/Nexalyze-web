@@ -1,9 +1,7 @@
-import { type ClassValue, clsx } from "clsx";
-
 /**
- * Merge class names with clsx (lightweight alternative to cn from shadcn)
+ * Merge class names (lightweight alternative to cn from shadcn)
  */
-export function cn(...inputs: ClassValue[]) {
+export function cn(...inputs: (string | undefined | null | false)[]) {
   return inputs.filter(Boolean).join(" ");
 }
 
