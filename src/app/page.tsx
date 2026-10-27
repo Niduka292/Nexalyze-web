@@ -4,9 +4,9 @@ import About from "@/components/sections/About";
 import Projects from "@/components/sections/Projects";
 
 /**
- * Nexora Solutions — single-page marketing site.
+ * Nexalyze — single-page marketing site.
  * All sections are composed here in order.
- * Content lives in src/lib/data.ts for easy editing.
+ * The Team section lives on its own dedicated page at /team.
  */
 export default function Home() {
   return (

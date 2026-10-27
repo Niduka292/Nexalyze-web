@@ -1,20 +1,30 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 
 const NAV_LINKS = [
   { label: "Home", href: "#home" },
   { label: "About", href: "#about" },
   { label: "Products", href: "#products" },
-  { label: "Team", href: "#team" },
+  { label: "Team", href: "/team" },
   { label: "Contact", href: "#contact" },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("Home");
-  const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (pathname === "/team") {
+      setActive("Team");
+    } else if (active === "Team") {
+      setActive("Home");
+    }
+  }, [pathname, active]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -24,7 +34,17 @@ export default function Navbar() {
 
   const handleNav = (label: string, href: string) => {
     setActive(label);
-    setMenuOpen(false);
+
+    if (href.startsWith("/")) {
+      router.push(href);
+      return;
+    }
+
+    if (pathname !== "/") {
+      router.push(`/${href}`);
+      return;
+    }
+
     const el = document.querySelector(href);
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
@@ -40,23 +60,25 @@ export default function Navbar() {
         left: 0,
         right: 0,
         zIndex: 100,
-        height: "64px",
+        height: "68px",
         display: "flex",
         alignItems: "center",
         backgroundColor: scrolled
-          ? "rgba(7, 18, 31, 0.92)"
-          : "rgba(7, 18, 31, 0.60)",
-        backdropFilter: "blur(18px)",
-        WebkitBackdropFilter: "blur(18px)",
+          ? "rgba(248, 250, 252, 0.90)"
+          : "rgba(248, 250, 252, 0.72)",
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
         borderBottom: scrolled
-          ? "1px solid rgba(255,255,255,0.09)"
-          : "1px solid rgba(255,255,255,0.05)",
-        transition: "background-color 0.3s ease, border-color 0.3s ease",
+          ? "1px solid rgba(15, 23, 42, 0.09)"
+          : "1px solid rgba(15, 23, 42, 0.05)",
+        boxShadow: scrolled ? "0 4px 24px rgba(15, 23, 42, 0.04)" : "none",
+        transition:
+          "background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease",
       }}
     >
       <div
         style={{
-          maxWidth: "1100px",
+          maxWidth: "1140px",
           width: "100%",
           margin: "0 auto",
           padding: "0 48px",
@@ -77,35 +99,36 @@ export default function Navbar() {
             cursor: "pointer",
             padding: 0,
           }}
-          aria-label="Vector9 Technologies — go to home"
+          aria-label="Nexalyze — go to home"
         >
           <div
             style={{
-              width: "32px",
-              height: "32px",
-              borderRadius: "8px",
-              background: "linear-gradient(135deg, #00D4FF, #7C5CFF)",
+              width: "34px",
+              height: "34px",
+              borderRadius: "10px",
+              background: "linear-gradient(135deg, #2563EB, #7C3AED)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               fontSize: "13px",
               fontWeight: 800,
-              color: "#fff",
+              color: "#FFFFFF",
               letterSpacing: "-0.5px",
+              boxShadow: "0 4px 12px rgba(37, 99, 235, 0.25)",
               flexShrink: 0,
             }}
           >
-            V9
+            NX
           </div>
           <span
             style={{
-              fontSize: "15px",
-              fontWeight: 700,
-              color: "#F8FAFC",
-              letterSpacing: "-0.3px",
+              fontSize: "16px",
+              fontWeight: 800,
+              color: "#0F172A",
+              letterSpacing: "-0.4px",
             }}
           >
-            Vector<span style={{ color: "#00D4FF" }}>9</span>
+            Nexa<span style={{ color: "#2563EB" }}>lyze</span>
           </span>
         </button>
 
@@ -125,30 +148,28 @@ export default function Navbar() {
               onClick={() => handleNav(label, href)}
               style={{
                 fontSize: "14px",
-                fontWeight: 500,
-                color: active === label ? "#F8FAFC" : "#94A3B8",
+                fontWeight: 600,
+                color: active === label ? "#2563EB" : "#475569",
                 background:
                   active === label
-                    ? "rgba(255,255,255,0.06)"
+                    ? "rgba(37, 99, 235, 0.08)"
                     : "transparent",
                 border: "none",
                 borderRadius: "8px",
-                padding: "6px 14px",
+                padding: "7px 14px",
                 cursor: "pointer",
                 transition: "color 0.2s, background 0.2s",
               }}
               onMouseEnter={(e) => {
                 if (active !== label) {
-                  (e.currentTarget as HTMLButtonElement).style.color = "#F8FAFC";
-                  (e.currentTarget as HTMLButtonElement).style.background =
-                    "rgba(255,255,255,0.04)";
+                  e.currentTarget.style.color = "#0F172A";
+                  e.currentTarget.style.background = "rgba(15, 23, 42, 0.04)";
                 }
               }}
               onMouseLeave={(e) => {
                 if (active !== label) {
-                  (e.currentTarget as HTMLButtonElement).style.color = "#94A3B8";
-                  (e.currentTarget as HTMLButtonElement).style.background =
-                    "transparent";
+                  e.currentTarget.style.color = "#475569";
+                  e.currentTarget.style.background = "transparent";
                 }
               }}
             >
@@ -163,32 +184,32 @@ export default function Navbar() {
           style={{
             fontSize: "14px",
             fontWeight: 600,
-            color: "#07121F",
-            background: "#00D4FF",
+            color: "#FFFFFF",
+            background: "linear-gradient(135deg, #2563EB 0%, #4F46E5 100%)",
             border: "none",
             borderRadius: "9999px",
-            padding: "8px 22px",
+            padding: "9px 22px",
             cursor: "pointer",
             letterSpacing: "0.1px",
-            transition: "opacity 0.2s, transform 0.15s",
+            boxShadow: "0 4px 14px rgba(37, 99, 235, 0.28)",
+            transition: "opacity 0.2s, transform 0.15s, box-shadow 0.2s",
             flexShrink: 0,
           }}
           onMouseEnter={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.opacity = "0.88";
-            (e.currentTarget as HTMLButtonElement).style.transform =
-              "translateY(-1px)";
+            e.currentTarget.style.transform = "translateY(-1px)";
+            e.currentTarget.style.boxShadow =
+              "0 6px 20px rgba(37, 99, 235, 0.38)";
           }}
           onMouseLeave={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.opacity = "1";
-            (e.currentTarget as HTMLButtonElement).style.transform =
-              "translateY(0)";
+            e.currentTarget.style.transform = "translateY(0)";
+            e.currentTarget.style.boxShadow =
+              "0 4px 14px rgba(37, 99, 235, 0.28)";
           }}
         >
           Get in touch
         </button>
       </div>
 
-      {/* Mobile menu toggle — shown via CSS on small screens */}
       <style>{`
         @media (max-width: 768px) {
           .desktop-nav { display: none !important; }

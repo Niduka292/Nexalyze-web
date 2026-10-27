@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 /**
- * Custom 404 page — styled to match the Nexora brand.
+ * Custom 404 page — styled to match the Nexalyze brand.
  */
 export default function NotFound() {
   return (

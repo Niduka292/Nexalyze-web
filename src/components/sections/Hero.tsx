@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 
 const TRUST_ITEMS = [
@@ -9,15 +9,12 @@ const TRUST_ITEMS = [
   "Real-time intelligence",
 ];
 
-const KPI_CARDS = [
-  { label: "AVG RISK SCORE", value: "74", badge: "Moderate", badgeColor: "#F59E0B", badgeBg: "rgba(245,158,11,0.12)" },
-  { label: "CRITICAL SUPPLIERS", value: "12", badge: "↑ 3 new", badgeColor: "#EF4444", badgeBg: "rgba(239,68,68,0.12)" },
-  { label: "HEALTH SCORE", value: "91%", badge: "↑ 2.4%", badgeColor: "#22C55E", badgeBg: "rgba(34,197,94,0.12)" },
+const SATELLITE_NODES = [
+  { label: "Predictive AI", x: "8%", y: "14%", delay: 0, color: "#2563EB" },
+  { label: "Signal Analysis", x: "72%", y: "10%", delay: 0.6, color: "#7C3AED" },
+  { label: "Risk Foresight", x: "4%", y: "78%", delay: 1.2, color: "#4F46E5" },
+  { label: "Cloud Native", x: "70%", y: "82%", delay: 1.8, color: "#2563EB" },
 ];
-
-const BAR_HEIGHTS = [35, 55, 42, 78, 60, 48, 90, 65, 50, 82, 44, 58];
-
-const SIDEBAR_ITEMS = ["Dashboard", "Suppliers", "Alerts", "Reports", "Settings"];
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 20 },
@@ -25,221 +22,301 @@ const fadeUp = (delay = 0) => ({
   transition: { duration: 0.55, ease: [0.25, 0.1, 0.25, 1] as const, delay },
 });
 
-function GridBackground() {
+function DotMatrixBackground() {
   return (
     <div
       aria-hidden="true"
       style={{
         position: "absolute",
         inset: 0,
-        backgroundImage: `
-          linear-gradient(rgba(0,212,255,0.045) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(0,212,255,0.045) 1px, transparent 1px)
-        `,
-        backgroundSize: "48px 48px",
+        backgroundImage:
+          "radial-gradient(rgba(37, 99, 235, 0.14) 1.25px, transparent 1.25px)",
+        backgroundSize: "28px 28px",
         maskImage:
-          "radial-gradient(ellipse 80% 70% at 50% 40%, black 30%, transparent 100%)",
+          "radial-gradient(ellipse 85% 75% at 50% 45%, black 35%, transparent 100%)",
         WebkitMaskImage:
-          "radial-gradient(ellipse 80% 70% at 50% 40%, black 30%, transparent 100%)",
+          "radial-gradient(ellipse 85% 75% at 50% 45%, black 35%, transparent 100%)",
         pointerEvents: "none",
       }}
     />
   );
 }
 
-function FloatingCard({
-  side,
-  label,
-  value,
-  sub,
-  valueColor,
-  subColor,
-}: {
-  side: "left" | "right";
-  label: string;
-  value: string;
-  sub: string;
-  valueColor?: string;
-  subColor?: string;
-}) {
+function AnimatedLogoShowcase() {
   return (
     <motion.div
-      initial={{ opacity: 0, x: side === "left" ? -20 : 20 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] as const, delay: 0.9 }}
+      initial={{ opacity: 0, scale: 0.9, x: 24 }}
+      animate={{ opacity: 1, scale: 1, x: 0 }}
+      transition={{ duration: 0.75, ease: [0.25, 0.1, 0.25, 1] as const, delay: 0.15 }}
       style={{
-        position: "absolute",
-        [side]: side === "left" ? "-40px" : "-40px",
-        top: side === "left" ? "36px" : "90px",
-        background: "#101C2D",
-        border: "1px solid rgba(0,212,255,0.22)",
-        borderRadius: "12px",
-        padding: "12px 16px",
-        boxShadow: "0 8px 32px rgba(0,0,0,0.45)",
-        zIndex: 10,
-        minWidth: "150px",
+        position: "relative",
+        width: "100%",
+        maxWidth: "460px",
+        height: "440px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        margin: "0 auto",
       }}
     >
-      <p style={{ fontSize: "10px", color: "#64748B", marginBottom: "4px", fontFamily: "'JetBrains Mono', monospace", letterSpacing: "0.5px" }}>
-        {label}
-      </p>
-      <p style={{ fontSize: "18px", fontWeight: 800, color: valueColor ?? "#F8FAFC", fontFamily: "'JetBrains Mono', monospace", letterSpacing: "-0.5px" }}>
-        {value}
-      </p>
-      <p style={{ fontSize: "11px", color: subColor ?? "#22C55E", marginTop: "3px" }}>
-        {sub}
-      </p>
-    </motion.div>
-  );
-}
-
-function DashboardMockup() {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 32 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] as const, delay: 0.65 }}
-      style={{ position: "relative", width: "100%", maxWidth: "860px", margin: "0 auto" }}
-    >
-      <FloatingCard
-        side="left"
-        label="SUPPLIERS MONITORED"
-        value="1,284"
-        sub="↑ 12 new this week"
-        subColor="#22C55E"
-      />
-      <FloatingCard
-        side="right"
-        label="RISK ALERTS"
-        value="3"
-        sub="Needs attention"
-        valueColor="#EF4444"
-        subColor="#F59E0B"
-      />
-
-      {/* Window frame */}
-      <div
-        style={{
-          background: "#0B1626",
-          border: "1px solid rgba(255,255,255,0.08)",
-          borderRadius: "16px",
-          overflow: "hidden",
-          boxShadow: "0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,212,255,0.05)",
+      {/* Soft Cobalt & Violet Ambient Backdrop Glow */}
+      <motion.div
+        animate={{
+          scale: [1, 1.12, 1],
+          opacity: [0.55, 0.85, 0.55],
         }}
+        transition={{
+          duration: 4.5,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+        style={{
+          position: "absolute",
+          width: "340px",
+          height: "340px",
+          borderRadius: "50%",
+          background:
+            "radial-gradient(circle, rgba(37,99,235,0.18) 0%, rgba(124,58,237,0.14) 50%, transparent 72%)",
+          filter: "blur(20px)",
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* Interactive Node Connection Lines SVG */}
+      <svg
+        width="440"
+        height="440"
+        viewBox="0 0 440 440"
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          pointerEvents: "none",
+        }}
+        aria-hidden="true"
       >
-        {/* Title bar */}
-        <div
+        <defs>
+          <linearGradient id="nx-line-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#2563EB" stopOpacity="0.35" />
+            <stop offset="100%" stopColor="#7C3AED" stopOpacity="0.35" />
+          </linearGradient>
+        </defs>
+        {/* Connecting lines from center (220,220) to satellite nodes */}
+        {[
+          { x2: 95, y2: 85 },
+          { x2: 345, y2: 70 },
+          { x2: 85, y2: 350 },
+          { x2: 350, y2: 360 },
+        ].map((pt, idx) => (
+          <motion.line
+            key={idx}
+            x1="220"
+            y1="220"
+            x2={pt.x2}
+            y2={pt.y2}
+            stroke="url(#nx-line-grad)"
+            strokeWidth="1.5"
+            strokeDasharray="6 6"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: 0.75 }}
+            transition={{ duration: 1.2, delay: 0.4 + idx * 0.15 }}
+          />
+        ))}
+      </svg>
+
+      {/* Outer Rotating Orbital Ring */}
+      <motion.svg
+        width="340"
+        height="340"
+        viewBox="0 0 340 340"
+        animate={{ rotate: 360 }}
+        transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
+        style={{ position: "absolute", pointerEvents: "none" }}
+      >
+        <defs>
+          <linearGradient id="nx-hero-orbit-1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#2563EB" stopOpacity="0.55" />
+            <stop offset="50%" stopColor="#7C3AED" stopOpacity="0.25" />
+            <stop offset="100%" stopColor="#2563EB" stopOpacity="0.05" />
+          </linearGradient>
+        </defs>
+        <circle
+          cx="170"
+          cy="170"
+          r="156"
+          fill="none"
+          stroke="url(#nx-hero-orbit-1)"
+          strokeWidth="1.5"
+          strokeDasharray="14 10"
+        />
+        <circle cx="170" cy="14" r="5" fill="#2563EB" />
+        <circle cx="326" cy="170" r="4" fill="#7C3AED" />
+        <circle cx="14" cy="170" r="3.5" fill="#2563EB" />
+      </motion.svg>
+
+      {/* Inner Counter-Rotating Ring */}
+      <motion.svg
+        width="250"
+        height="250"
+        viewBox="0 0 250 250"
+        animate={{ rotate: -360 }}
+        transition={{ duration: 19, repeat: Infinity, ease: "linear" }}
+        style={{ position: "absolute", pointerEvents: "none" }}
+      >
+        <circle
+          cx="125"
+          cy="125"
+          r="112"
+          fill="none"
+          stroke="rgba(124, 58, 237, 0.32)"
+          strokeWidth="1.5"
+          strokeDasharray="40 20"
+        />
+        <circle cx="125" cy="13" r="4" fill="#7C3AED" />
+        <circle cx="125" cy="237" r="3.5" fill="#2563EB" />
+      </motion.svg>
+
+      {/* Floating Satellite Pills */}
+      {SATELLITE_NODES.map((node) => (
+        <motion.div
+          key={node.label}
+          animate={{ y: [0, -7, 0] }}
+          transition={{
+            duration: 3.4,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: node.delay,
+          }}
           style={{
-            background: "#101C2D",
-            borderBottom: "1px solid rgba(255,255,255,0.06)",
-            padding: "10px 16px",
+            position: "absolute",
+            left: node.x,
+            top: node.y,
+            background: "rgba(255, 255, 255, 0.92)",
+            backdropFilter: "blur(10px)",
+            WebkitBackdropFilter: "blur(10px)",
+            border: "1px solid rgba(15, 23, 42, 0.08)",
+            boxShadow: "0 10px 25px rgba(15, 23, 42, 0.07)",
+            borderRadius: "9999px",
+            padding: "6px 13px",
             display: "flex",
             alignItems: "center",
             gap: "7px",
+            zIndex: 3,
           }}
         >
-          {["#EF4444", "#F59E0B", "#22C55E"].map((c) => (
-            <div key={c} style={{ width: "10px", height: "10px", borderRadius: "50%", background: c }} />
-          ))}
-          <span style={{ marginLeft: "8px", fontSize: "11px", color: "#64748B", fontFamily: "'JetBrains Mono', monospace" }}>
-            SupplyPulse — Risk Dashboard
+          <span
+            style={{
+              width: "7px",
+              height: "7px",
+              borderRadius: "50%",
+              background: node.color,
+              flexShrink: 0,
+            }}
+          />
+          <span
+            style={{
+              fontSize: "11px",
+              fontWeight: 700,
+              color: "#0F172A",
+              fontFamily: "'JetBrains Mono', monospace",
+              letterSpacing: "-0.2px",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {node.label}
           </span>
-        </div>
+        </motion.div>
+      ))}
 
-        {/* Body */}
-        <div style={{ display: "grid", gridTemplateColumns: "176px 1fr", minHeight: "240px" }}>
-          {/* Sidebar */}
-          <div style={{ background: "#0D1929", borderRight: "1px solid rgba(255,255,255,0.05)", padding: "16px 0" }}>
-            {SIDEBAR_ITEMS.map((item) => (
-              <div
-                key={item}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "8px",
-                  padding: "8px 16px",
-                  fontSize: "12px",
-                  color: item === "Dashboard" ? "#00D4FF" : "#64748B",
-                  background: item === "Dashboard" ? "rgba(0,212,255,0.07)" : "transparent",
-                  borderLeft: item === "Dashboard" ? "2px solid #00D4FF" : "2px solid transparent",
-                  fontFamily: "Inter, sans-serif",
-                }}
-              >
-                <div
-                  style={{
-                    width: "14px",
-                    height: "14px",
-                    borderRadius: "3px",
-                    background: item === "Dashboard" ? "#00D4FF" : "#64748B",
-                    opacity: 0.5,
-                    flexShrink: 0,
-                  }}
-                />
-                {item}
-              </div>
-            ))}
-          </div>
-
-          {/* Main content */}
-          <div style={{ padding: "16px", display: "flex", flexDirection: "column", gap: "12px" }}>
-            {/* KPI row */}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "10px" }}>
-              {KPI_CARDS.map(({ label, value, badge, badgeColor, badgeBg }) => (
-                <div
-                  key={label}
-                  style={{
-                    background: "#101C2D",
-                    border: "1px solid rgba(255,255,255,0.07)",
-                    borderRadius: "10px",
-                    padding: "12px",
-                  }}
-                >
-                  <p style={{ fontSize: "10px", color: "#64748B", fontFamily: "'JetBrains Mono', monospace", letterSpacing: "0.5px", marginBottom: "4px" }}>
-                    {label}
-                  </p>
-                  <p style={{ fontSize: "22px", fontWeight: 800, color: "#F8FAFC", fontFamily: "'JetBrains Mono', monospace", letterSpacing: "-1px" }}>
-                    {value}
-                  </p>
-                  <span style={{ display: "inline-block", fontSize: "9px", fontWeight: 700, padding: "2px 6px", borderRadius: "4px", marginTop: "4px", background: badgeBg, color: badgeColor }}>
-                    {badge}
-                  </span>
-                </div>
-              ))}
-            </div>
-
-            {/* Bar chart */}
-            <div
-              style={{
-                background: "#101C2D",
-                border: "1px solid rgba(255,255,255,0.07)",
-                borderRadius: "10px",
-                padding: "12px",
-                height: "88px",
-                display: "flex",
-                alignItems: "flex-end",
-                gap: "4px",
-              }}
+      {/* Core Deep Navy Animated Logo Emblem */}
+      <motion.div
+        animate={{ y: [0, -6, 0] }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        whileHover={{ scale: 1.06, rotate: 3 }}
+        style={{
+          position: "relative",
+          width: "148px",
+          height: "148px",
+          borderRadius: "36px",
+          background: "linear-gradient(145deg, #0A1128 0%, #162347 100%)",
+          border: "1.5px solid rgba(37, 99, 235, 0.45)",
+          boxShadow:
+            "0 24px 60px rgba(10, 17, 40, 0.28), 0 0 0 8px rgba(37, 99, 235, 0.07), inset 0 0 28px rgba(37, 99, 235, 0.25)",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "8px",
+          zIndex: 4,
+          cursor: "pointer",
+        }}
+      >
+        <svg
+          width="68"
+          height="68"
+          viewBox="0 0 40 40"
+          fill="none"
+          aria-hidden="true"
+        >
+          <defs>
+            <linearGradient
+              id="nx-core-grad"
+              x1="0"
+              y1="0"
+              x2="40"
+              y2="40"
+              gradientUnits="userSpaceOnUse"
             >
-              {BAR_HEIGHTS.map((h, i) => (
-                <div
-                  key={i}
-                  style={{
-                    flex: 1,
-                    height: `${h}%`,
-                    borderRadius: "3px 3px 0 0",
-                    background: h >= 75 ? "rgba(0,212,255,0.55)" : "rgba(0,212,255,0.18)",
-                  }}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
+              <stop offset="0%" stopColor="#60A5FA" />
+              <stop offset="50%" stopColor="#3B82F6" />
+              <stop offset="100%" stopColor="#A78BFA" />
+            </linearGradient>
+          </defs>
+          {/* Animated N */}
+          <motion.path
+            d="M7 30V10L21 30V10"
+            stroke="url(#nx-core-grad)"
+            strokeWidth="3.4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: 1 }}
+            transition={{ duration: 1.3, ease: "easeInOut", delay: 0.25 }}
+          />
+          {/* Animated X */}
+          <motion.path
+            d="M22 13L33 28M33 13L22 28"
+            stroke="#60A5FA"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: 1 }}
+            transition={{ duration: 1.15, ease: "easeInOut", delay: 0.65 }}
+          />
+        </svg>
+
+        <span
+          style={{
+            fontSize: "10px",
+            fontWeight: 700,
+            letterSpacing: "2.2px",
+            textTransform: "uppercase",
+            color: "#93C5FD",
+            fontFamily: "'JetBrains Mono', monospace",
+          }}
+        >
+          NEXALYZE
+        </span>
+      </motion.div>
     </motion.div>
   );
 }
 
 export default function Hero() {
+  const router = useRouter();
+
   const handleScroll = (id: string) => {
     document.querySelector(id)?.scrollIntoView({ behavior: "smooth" });
   };
@@ -250,247 +327,354 @@ export default function Hero() {
       style={{
         position: "relative",
         overflow: "hidden",
-        backgroundColor: "#07121F",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: "140px 48px 80px",
+        backgroundColor: "#F8FAFC",
+        padding: "136px 48px 96px",
       }}
     >
-      {/* Section separator */}
-      <div
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          top: 0,
-          left: "10%",
-          right: "10%",
-          height: "1px",
-          background: "linear-gradient(90deg, transparent, rgba(0,212,255,0.15), transparent)",
-        }}
-      />
+      <DotMatrixBackground />
 
-      <GridBackground />
-
-      {/* Top cyan + violet glow */}
+      {/* Top right soft Cobalt/Violet mesh glow */}
       <div
         aria-hidden="true"
         style={{
           position: "absolute",
-          top: "-80px",
-          left: "50%",
-          transform: "translateX(-50%)",
-          width: "700px",
-          height: "360px",
-          background: "radial-gradient(ellipse, rgba(0,212,255,0.12) 0%, rgba(124,92,255,0.06) 50%, transparent 75%)",
-          pointerEvents: "none",
-        }}
-      />
-      <div
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          bottom: "80px",
-          left: "-80px",
-          width: "380px",
-          height: "380px",
-          background: "radial-gradient(circle, rgba(124,92,255,0.08), transparent 70%)",
+          top: "-100px",
+          right: "-80px",
+          width: "640px",
+          height: "640px",
+          background:
+            "radial-gradient(circle, rgba(37,99,235,0.09) 0%, rgba(124,58,237,0.06) 45%, transparent 70%)",
           pointerEvents: "none",
         }}
       />
 
-      {/* Hero content */}
+      {/* Bottom left soft glow */}
       <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          bottom: "-120px",
+          left: "-100px",
+          width: "480px",
+          height: "480px",
+          background:
+            "radial-gradient(circle, rgba(124,58,237,0.07), transparent 70%)",
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* Two-column container: Left = Name, Vision & Buttons | Right = Animated Logo */}
+      <div
+        className="hero-grid"
         style={{
           position: "relative",
           zIndex: 2,
-          maxWidth: "760px",
+          maxWidth: "1140px",
           width: "100%",
-          textAlign: "center",
-          display: "flex",
-          flexDirection: "column",
+          margin: "0 auto",
+          display: "grid",
+          gridTemplateColumns: "1.15fr 0.85fr",
+          gap: "56px",
           alignItems: "center",
         }}
       >
-        {/* Eyebrow */}
-        <motion.div {...fadeUp(0.05)} style={{ marginBottom: "28px" }}>
-          <span
+        {/* ── Left Column: Name, Headline, Vision & Buttons ── */}
+        <div
+          className="hero-left"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            textAlign: "left",
+          }}
+        >
+          {/* Eyebrow + Brand Name Lockup */}
+          <motion.div
+            {...fadeUp(0.05)}
             style={{
-              display: "inline-flex",
+              display: "flex",
               alignItems: "center",
-              gap: "8px",
-              fontSize: "11px",
-              fontWeight: 700,
-              letterSpacing: "2px",
-              textTransform: "uppercase",
-              color: "#00D4FF",
-              background: "rgba(0,212,255,0.08)",
-              border: "1px solid rgba(0,212,255,0.2)",
-              borderRadius: "9999px",
-              padding: "5px 14px",
+              gap: "12px",
+              flexWrap: "wrap",
+              marginBottom: "20px",
             }}
           >
             <span
               style={{
-                width: "6px",
-                height: "6px",
-                borderRadius: "50%",
-                background: "#00D4FF",
-                animation: "v9-pulse 2s ease-in-out infinite",
-                flexShrink: 0,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                fontSize: "11px",
+                fontWeight: 700,
+                letterSpacing: "1.8px",
+                textTransform: "uppercase",
+                color: "#2563EB",
+                background: "rgba(37, 99, 235, 0.08)",
+                border: "1px solid rgba(37, 99, 235, 0.2)",
+                borderRadius: "9999px",
+                padding: "6px 14px",
+              }}
+            >
+              <span
+                style={{
+                  width: "6px",
+                  height: "6px",
+                  borderRadius: "50%",
+                  background: "#2563EB",
+                  animation: "nx-pulse 2s ease-in-out infinite",
+                  flexShrink: 0,
+                }}
+              />
+              Nexalyze — AI Software &amp; Intelligence
+            </span>
+          </motion.div>
+
+          {/* Prominent Brand Name & Headline */}
+          <motion.h1
+            {...fadeUp(0.12)}
+            style={{
+              fontSize: "clamp(38px, 5vw, 56px)",
+              fontWeight: 900,
+              letterSpacing: "-2px",
+              lineHeight: 1.05,
+              color: "#0F172A",
+              marginBottom: "24px",
+            }}
+          >
+            Nexa
+            <span
+              style={{
+                background: "linear-gradient(135deg, #2563EB 0%, #7C3AED 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              lyze
+            </span>
+            : Software that thinks.{" "}
+            <span
+              style={{
+                background: "linear-gradient(135deg, #2563EB 0%, #7C3AED 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              Solutions that scale.
+            </span>
+          </motion.h1>
+
+          {/* Company Vision Box */}
+          <motion.div
+            {...fadeUp(0.19)}
+            style={{
+              background: "#FFFFFF",
+              border: "1px solid rgba(15, 23, 42, 0.08)",
+              boxShadow: "0 12px 36px rgba(15, 23, 42, 0.06)",
+              borderRadius: "16px",
+              padding: "24px 28px",
+              marginBottom: "32px",
+              position: "relative",
+              overflow: "hidden",
+              width: "100%",
+            }}
+          >
+            <div
+              aria-hidden="true"
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                height: "3px",
+                background: "linear-gradient(90deg, #2563EB, #7C3AED)",
               }}
             />
-            AI-Powered Software
-          </span>
-        </motion.div>
+            <p
+              style={{
+                fontSize: "11px",
+                fontWeight: 700,
+                letterSpacing: "2px",
+                textTransform: "uppercase",
+                color: "#2563EB",
+                marginBottom: "8px",
+              }}
+            >
+              Our Vision
+            </p>
+            <p
+              style={{
+                fontSize: "16px",
+                fontWeight: 500,
+                lineHeight: 1.7,
+                color: "#334155",
+              }}
+            >
+              To empower modern enterprises with predictive AI intelligence that turns complex data into clarity — enabling teams to anticipate challenges, automate decisions, and scale with confidence.
+            </p>
+          </motion.div>
 
-        {/* Headline */}
-        <motion.h1
-          {...fadeUp(0.12)}
-          style={{
-            fontSize: "clamp(38px, 5.5vw, 58px)",
-            fontWeight: 900,
-            letterSpacing: "-2px",
-            lineHeight: 1.04,
-            color: "#F8FAFC",
-            marginBottom: "24px",
-          }}
-        >
-          Software that thinks.{" "}
-          <span
+          {/* CTA row */}
+          <motion.div
+            {...fadeUp(0.26)}
             style={{
-              background: "linear-gradient(135deg, #00D4FF 0%, #7C5CFF 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
-          >
-            Solutions that scale.
-          </span>
-        </motion.h1>
-
-        {/* Sub-copy */}
-        <motion.p
-          {...fadeUp(0.19)}
-          style={{
-            fontSize: "17px",
-            fontWeight: 400,
-            lineHeight: 1.75,
-            color: "#94A3B8",
-            maxWidth: "540px",
-            marginBottom: "40px",
-          }}
-        >
-          Vector9 builds intelligent SaaS products and enterprise tools that help businesses move faster, see further, and operate with confidence.
-        </motion.p>
-
-        {/* CTA row */}
-        <motion.div
-          {...fadeUp(0.26)}
-          style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "52px", flexWrap: "wrap", justifyContent: "center" }}
-        >
-          <button
-            onClick={() => handleScroll("#products")}
-            style={{
-              fontSize: "15px",
-              fontWeight: 600,
-              color: "#07121F",
-              background: "#00D4FF",
-              border: "none",
-              borderRadius: "9999px",
-              padding: "12px 28px",
-              cursor: "pointer",
-              letterSpacing: "0.1px",
-              transition: "opacity 0.2s, transform 0.15s",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.opacity = "0.88";
-              e.currentTarget.style.transform = "translateY(-1px)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.opacity = "1";
-              e.currentTarget.style.transform = "translateY(0)";
-            }}
-          >
-            Explore our products
-          </button>
-
-          <button
-            onClick={() => handleScroll("#about")}
-            style={{
-              fontSize: "15px",
-              fontWeight: 500,
-              color: "#F8FAFC",
-              background: "transparent",
-              border: "1px solid rgba(255,255,255,0.14)",
-              borderRadius: "9999px",
-              padding: "12px 28px",
-              cursor: "pointer",
               display: "flex",
               alignItems: "center",
-              gap: "8px",
-              transition: "border-color 0.2s, transform 0.15s",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = "rgba(255,255,255,0.28)";
-              e.currentTarget.style.transform = "translateY(-1px)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "rgba(255,255,255,0.14)";
-              e.currentTarget.style.transform = "translateY(0)";
+              gap: "14px",
+              marginBottom: "36px",
+              flexWrap: "wrap",
             }}
           >
-            <svg width="16" height="16" fill="none" stroke="#F8FAFC" strokeWidth="1.8" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-            Learn about us
-          </button>
-        </motion.div>
+            <button
+              onClick={() => handleScroll("#products")}
+              style={{
+                fontSize: "15px",
+                fontWeight: 600,
+                color: "#FFFFFF",
+                background: "linear-gradient(135deg, #2563EB 0%, #4F46E5 100%)",
+                border: "none",
+                borderRadius: "9999px",
+                padding: "13px 28px",
+                cursor: "pointer",
+                letterSpacing: "0.1px",
+                boxShadow: "0 8px 24px rgba(37, 99, 235, 0.28)",
+                transition: "transform 0.15s, box-shadow 0.2s",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-2px)";
+                e.currentTarget.style.boxShadow =
+                  "0 12px 28px rgba(37, 99, 235, 0.38)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow =
+                  "0 8px 24px rgba(37, 99, 235, 0.28)";
+              }}
+            >
+              Explore our products
+            </button>
 
-        {/* Trust indicators */}
-        <motion.div
-          {...fadeUp(0.33)}
-          style={{ display: "flex", alignItems: "center", gap: "20px", flexWrap: "wrap", justifyContent: "center" }}
-        >
-          {TRUST_ITEMS.map((item, i) => (
-            <span key={item} style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-              <span style={{ display: "flex", alignItems: "center", gap: "7px", fontSize: "12px", color: "#64748B", fontWeight: 500 }}>
+            <button
+              onClick={() => router.push("/team")}
+              style={{
+                fontSize: "15px",
+                fontWeight: 600,
+                color: "#0F172A",
+                background: "#FFFFFF",
+                border: "1px solid rgba(15, 23, 42, 0.14)",
+                borderRadius: "9999px",
+                padding: "13px 28px",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                boxShadow: "0 2px 8px rgba(15, 23, 42, 0.04)",
+                transition: "border-color 0.2s, transform 0.15s, color 0.2s",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = "#2563EB";
+                e.currentTarget.style.color = "#2563EB";
+                e.currentTarget.style.transform = "translateY(-2px)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "rgba(15, 23, 42, 0.14)";
+                e.currentTarget.style.color = "#0F172A";
+                e.currentTarget.style.transform = "translateY(0)";
+              }}
+            >
+              <svg
+                width="16"
+                height="16"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+              Meet the team
+            </button>
+          </motion.div>
+
+          {/* Trust indicators */}
+          <motion.div
+            {...fadeUp(0.33)}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "20px",
+              flexWrap: "wrap",
+            }}
+          >
+            {TRUST_ITEMS.map((item, i) => (
+              <span
+                key={item}
+                style={{ display: "flex", alignItems: "center", gap: "20px" }}
+              >
                 <span
                   style={{
-                    width: "16px",
-                    height: "16px",
-                    borderRadius: "50%",
-                    background: "rgba(34,197,94,0.15)",
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: "9px",
-                    color: "#22C55E",
-                    flexShrink: 0,
+                    gap: "7px",
+                    fontSize: "12px",
+                    color: "#475569",
+                    fontWeight: 600,
                   }}
                 >
-                  ✓
+                  <span
+                    style={{
+                      width: "18px",
+                      height: "18px",
+                      borderRadius: "50%",
+                      background: "rgba(22, 163, 74, 0.12)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: "10px",
+                      color: "#16A34A",
+                      flexShrink: 0,
+                    }}
+                  >
+                    ✓
+                  </span>
+                  {item}
                 </span>
-                {item}
+                {i < TRUST_ITEMS.length - 1 && (
+                  <span
+                    style={{
+                      width: "1px",
+                      height: "14px",
+                      background: "rgba(15, 23, 42, 0.12)",
+                    }}
+                  />
+                )}
               </span>
-              {i < TRUST_ITEMS.length - 1 && (
-                <span style={{ width: "1px", height: "12px", background: "rgba(255,255,255,0.1)" }} />
-              )}
-            </span>
-          ))}
-        </motion.div>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* ── Right Column: Animated Logo & Interactive Node Graph ── */}
+        <div>
+          <AnimatedLogoShowcase />
+        </div>
       </div>
 
-      {/* Dashboard mockup */}
-      <div style={{ position: "relative", zIndex: 2, width: "100%", maxWidth: "1100px", marginTop: "64px" }}>
-        <DashboardMockup />
-      </div>
-
-      {/* Keyframe for pulsing dot */}
       <style>{`
-        @keyframes v9-pulse {
+        @keyframes nx-pulse {
           0%, 100% { opacity: 1; transform: scale(1); }
           50% { opacity: 0.45; transform: scale(0.75); }
+        }
+        @media (max-width: 960px) {
+          .hero-grid {
+            grid-template-columns: 1fr !important;
+            gap: 40px !important;
+          }
+          .hero-left {
+            align-items: center !important;
+            text-align: center !important;
+          }
         }
       `}</style>
     </section>

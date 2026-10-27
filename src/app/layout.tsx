@@ -2,20 +2,20 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Vector9 Technologies — AI-Powered Software Solutions",
+  title: "Nexalyze — AI-Powered Software Solutions",
   description:
-    "Vector9 Technologies builds AI-powered SaaS products and enterprise software solutions. Creators of SupplyPulse — real-time supplier risk intelligence for modern businesses.",
+    "Nexalyze builds AI-powered SaaS products and enterprise software solutions. Creators of SupplyPulse — real-time supplier risk intelligence for modern businesses.",
   keywords: [
-    "Vector9 Technologies",
+    "Nexalyze",
     "AI software",
     "SaaS",
     "SupplyPulse",
     "supplier risk management",
     "enterprise software",
   ],
-  authors: [{ name: "Vector9 Technologies" }],
+  authors: [{ name: "Nexalyze" }],
   openGraph: {
-    title: "Vector9 Technologies — AI-Powered Software Solutions",
+    title: "Nexalyze — AI-Powered Software Solutions",
     description:
       "Building intelligent software that solves real business problems. Creators of SupplyPulse.",
     type: "website",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Vector9 Technologies",
+    title: "Nexalyze",
     description: "AI-powered SaaS products and enterprise software solutions.",
   },
   robots: {

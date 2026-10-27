@@ -269,7 +269,7 @@ export const TESTIMONIALS: Testimonial[] = [
   {
     id: "t1",
     quote:
-      "We went from taking orders via WhatsApp to having a full online store in six weeks. Our revenue doubled in the first month. Nexora didn't just build us a website — they changed our business.",
+      "We went from taking orders via WhatsApp to having a full online store in six weeks. Our revenue doubled in the first month. Nexalyze didn't just build us a website — they changed our business.",
     name: "Saman Kumara",
     role: "Founder",
     company: "HiveBliss Naturals",
@@ -289,7 +289,7 @@ export const TESTIMONIALS: Testimonial[] = [
   {
     id: "t3",
     quote:
-      "Professional, fast, and genuinely invested in our success. The team understood our technical requirements and delivered a scalable architecture we can grow into. I recommend Nexora without hesitation.",
+      "Professional, fast, and genuinely invested in our success. The team understood our technical requirements and delivered a scalable architecture we can grow into. I recommend Nexalyze without hesitation.",
     name: "Raveena Jayasekara",
     role: "CTO",
     company: "SupplyPulse SaaS",
@@ -309,7 +309,7 @@ export const TESTIMONIALS: Testimonial[] = [
   {
     id: "t5",
     quote:
-      "Our website now ranks on the first page of Google for our key search terms. The SEO work Nexora did made a tangible difference to our enquiry rate within two months.",
+      "Our website now ranks on the first page of Google for our key search terms. The SEO work Nexalyze did made a tangible difference to our enquiry rate within two months.",
     name: "Amaya Wickramasinghe",
     role: "Marketing Director",
     company: "PearlBay Hotels",
@@ -329,12 +329,7 @@ export const TESTIMONIALS: Testimonial[] = [
 ];
 
 // ─── Stats ────────────────────────────────────────────────────────────────────
-export const STATS: Stat[] = [
-  { id: "projects", value: 40, suffix: "+", label: "Projects Completed" },
-  { id: "businesses", value: 35, suffix: "+", label: "Businesses Helped" },
-  { id: "code", value: 120, suffix: "k+", label: "Lines of Code" },
-  { id: "satisfaction", value: 98, suffix: "%", label: "Client Satisfaction" },
-];
+export const STATS: Stat[] = [];
 
 // ─── About Values ─────────────────────────────────────────────────────────────
 export const ABOUT_VALUES = [

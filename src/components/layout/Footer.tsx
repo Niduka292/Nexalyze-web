@@ -1,5 +1,5 @@
 /**
- * Footer.tsx — Nexora Solutions
+ * Footer.tsx — Nexalyze
  *
  * Dark-themed site footer.
  *
@@ -44,10 +44,10 @@ const SERVICE_LINKS = [
 ];
 
 const CONTACT_LINKS = [
-  { label: "hello@nexorasolutions.lk", href: "mailto:hello@nexorasolutions.lk" },
-  { label: "+94 77 123 4567",          href: "tel:+94771234567"                },
-  { label: "WhatsApp Us",              href: "https://wa.me/94771234567"       },
-  { label: "Colombo, Sri Lanka",       href: "#"                               },
+  { label: "hello@nexalyze.com", href: "mailto:hello@nexalyze.com" },
+  { label: "+94 77 123 4567",    href: "tel:+94771234567"          },
+  { label: "WhatsApp Us",        href: "https://wa.me/94771234567" },
+  { label: "Colombo, Sri Lanka", href: "#"                         },
 ];
 
 const SOCIAL_LINKS = [
@@ -149,7 +149,7 @@ export default function Footer() {
                 marginBottom: 14,
               }}
             >
-              Nexora<span style={{ color: "#3B82F6" }}>.</span>
+              Nexalyze<span style={{ color: "#3B82F6" }}>.</span>
             </div>
 
             <p
@@ -263,7 +263,7 @@ export default function Footer() {
         >
           {/* Copyright */}
           <p style={{ fontSize: 12, color: "rgba(241,245,255,0.22)" }}>
-            © {year} Nexora Solutions. All rights reserved.
+            © {year} Nexalyze. All rights reserved.
           </p>
 
           {/* Built with */}
