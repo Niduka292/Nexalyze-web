@@ -76,6 +76,7 @@ export default function Team() {
   return (
     <section
       id="team"
+      className="team-section"
       style={{
         position: "relative",
         minHeight: "100vh",
@@ -138,7 +139,7 @@ export default function Team() {
         }}
       >
         {/* Back link + Header */}
-        <div style={{ textAlign: "center", marginBottom: "48px" }}>
+        <div className="team-header" style={{ textAlign: "center", marginBottom: "48px" }}>
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
@@ -187,7 +188,7 @@ export default function Team() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease, delay: 0.1 }}
             style={{
-              fontSize: "clamp(36px, 5vw, 52px)",
+              fontSize: "clamp(34px, 5vw, 52px)",
               fontWeight: 900,
               letterSpacing: "-1.5px",
               lineHeight: 1.06,
@@ -220,7 +221,7 @@ export default function Team() {
               margin: "0 auto",
             }}
           >
-            Hover over any member in the team portrait below to bring them into full color and view their profile.
+            Hover or tap any member in the team portrait below to bring them into full color and view their profile.
           </motion.p>
         </div>
 
@@ -239,6 +240,7 @@ export default function Team() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease, delay: 0.2 }}
+            className="team-stage-card"
             style={{
               position: "relative",
               background:
@@ -248,8 +250,7 @@ export default function Team() {
               boxShadow:
                 "0 28px 70px rgba(10, 17, 40, 0.22), inset 0 1px 0 rgba(255,255,255,0.08)",
               overflow: "hidden",
-              padding: "32px 24px 0",
-              minHeight: "520px",
+              padding: "28px 20px 0",
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-between",
@@ -285,15 +286,17 @@ export default function Team() {
               }}
             />
 
-            {/* Floating Popup Badge inside the Stage when Hovered */}
+            {/* Floating Popup Badge inside the Stage when Hovered/Tapped */}
             <div
+              className="stage-top-badge"
               style={{
                 position: "relative",
                 zIndex: 20,
-                minHeight: "58px",
+                minHeight: "52px",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                padding: "0 8px",
               }}
             >
               <AnimatePresence mode="wait">
@@ -305,15 +308,17 @@ export default function Team() {
                     exit={{ opacity: 0, y: -6, scale: 0.96 }}
                     transition={{ duration: 0.22 }}
                     style={{
-                      background: "rgba(15, 23, 42, 0.88)",
+                      background: "rgba(15, 23, 42, 0.9)",
                       backdropFilter: "blur(14px)",
                       WebkitBackdropFilter: "blur(14px)",
                       border: "1px solid rgba(96, 165, 250, 0.35)",
                       borderRadius: "9999px",
-                      padding: "8px 20px",
+                      padding: "7px 16px",
                       display: "inline-flex",
                       alignItems: "center",
-                      gap: "10px",
+                      flexWrap: "wrap",
+                      justifyContent: "center",
+                      gap: "8px",
                       boxShadow: "0 12px 32px rgba(0, 0, 0, 0.35)",
                     }}
                   >
@@ -323,6 +328,7 @@ export default function Team() {
                         height: "8px",
                         borderRadius: "50%",
                         background: "#60A5FA",
+                        flexShrink: 0,
                       }}
                     />
                     <span
@@ -353,15 +359,16 @@ export default function Team() {
                     style={{
                       fontSize: "12px",
                       fontWeight: 600,
-                      color: "rgba(203, 213, 225, 0.7)",
-                      background: "rgba(255, 255, 255, 0.05)",
-                      border: "1px solid rgba(255, 255, 255, 0.1)",
+                      color: "rgba(203, 213, 225, 0.78)",
+                      background: "rgba(255, 255, 255, 0.06)",
+                      border: "1px solid rgba(255, 255, 255, 0.12)",
                       borderRadius: "9999px",
-                      padding: "6px 16px",
-                      letterSpacing: "0.3px",
+                      padding: "6px 14px",
+                      letterSpacing: "0.2px",
+                      textAlign: "center",
                     }}
                   >
-                    Hover over a team member to inspect details
+                    Hover or tap a member to inspect details
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -372,7 +379,7 @@ export default function Team() {
               className="composite-photo-row"
               style={{
                 position: "relative",
-                height: "430px",
+                height: "435px",
                 width: "100%",
                 maxWidth: "660px",
                 margin: "0 auto",
@@ -386,10 +393,6 @@ export default function Team() {
                 const someoneElseHovered =
                   hoveredId !== null && hoveredId !== member.id;
 
-                // Fine-tuned alignment so all 3 cutouts stand shoulder-to-shoulder at equal head height:
-                // - lavindu (left): shifted slightly inward toward center, scaled to match head level
-                // - rusira (center): centered in the middle
-                // - niduka (right): shifted slightly inward toward center, scaled to match head level
                 const layoutStyles: Record<
                   TeamMember["position"],
                   React.CSSProperties
@@ -397,6 +400,7 @@ export default function Team() {
                   left: {
                     width: "47%",
                     height: "455px",
+                    marginLeft: "-6%",
                     marginRight: "-12%",
                     zIndex: isHovered ? 12 : 2,
                     transformOrigin: "bottom center",
@@ -416,10 +420,6 @@ export default function Team() {
                   },
                 };
 
-                // Saturation logic:
-                // Default (no hover): slightly lower saturation (0.48)
-                // Hovered person: increased full saturation (1.2) + glow
-                // Unhovered when another is hovered: desaturated (0.22) + slightly dimmed
                 const filterValue = isHovered
                   ? "saturate(1.22) contrast(1.05) brightness(1.04) drop-shadow(0 18px 36px rgba(37, 99, 235, 0.45))"
                   : someoneElseHovered
@@ -429,6 +429,7 @@ export default function Team() {
                 return (
                   <motion.div
                     key={member.id}
+                    className={`member-slot member-${member.position}`}
                     onMouseEnter={() => setHoveredId(member.id)}
                     onMouseLeave={() => setHoveredId(null)}
                     onClick={() =>
@@ -451,6 +452,7 @@ export default function Team() {
                       display: "flex",
                       alignItems: "flex-end",
                       justifyContent: "center",
+                      flexShrink: 0,
                       transition: "filter 0.35s ease, opacity 0.35s ease",
                       filter: filterValue,
                       opacity: someoneElseHovered ? 0.78 : 1,
@@ -462,8 +464,9 @@ export default function Team() {
                       src={member.image}
                       alt={member.name}
                       fill
-                      sizes="(max-width: 768px) 50vw, 340px"
+                      sizes="(max-width: 768px) 65vw, 340px"
                       priority
+                      className={`member-img member-img-${member.id}`}
                       style={{
                         objectFit: "contain",
                         objectPosition: "bottom center",
@@ -498,44 +501,52 @@ export default function Team() {
 
               {/* Interactive Member Selector Pills at bottom of portrait */}
               <div
+                className="member-pills-row"
                 style={{
                   position: "absolute",
-                  bottom: "16px",
+                  bottom: "14px",
                   left: 0,
                   right: 0,
                   zIndex: 18,
                   display: "flex",
                   justifyContent: "space-around",
-                  padding: "0 16px",
-                  pointerEvents: "none",
+                  padding: "0 12px",
                 }}
               >
                 {TEAM_MEMBERS.map((member) => {
                   const isHovered = hoveredId === member.id;
                   return (
-                    <div
+                    <button
                       key={member.id}
+                      type="button"
+                      onMouseEnter={() => setHoveredId(member.id)}
+                      onClick={() =>
+                        setHoveredId((prev) =>
+                          prev === member.id ? null : member.id
+                        )
+                      }
                       style={{
                         fontSize: "12px",
                         fontWeight: 700,
                         color: isHovered ? "#FFFFFF" : "#CBD5E1",
                         background: isHovered
                           ? "linear-gradient(135deg, #2563EB, #7C3AED)"
-                          : "rgba(15, 23, 42, 0.75)",
+                          : "rgba(15, 23, 42, 0.78)",
                         border: isHovered
-                          ? "1px solid rgba(147, 197, 253, 0.6)"
-                          : "1px solid rgba(255, 255, 255, 0.12)",
+                          ? "1px solid rgba(147, 197, 253, 0.65)"
+                          : "1px solid rgba(255, 255, 255, 0.14)",
                         borderRadius: "9999px",
-                        padding: "5px 14px",
+                        padding: "6px 14px",
                         backdropFilter: "blur(8px)",
                         transition: "all 0.25s ease",
+                        cursor: "pointer",
                         boxShadow: isHovered
                           ? "0 6px 18px rgba(37, 99, 235, 0.45)"
                           : "none",
                       }}
                     >
                       {member.name.split(" ")[0]}
-                    </div>
+                    </button>
                   );
                 })}
               </div>
@@ -543,7 +554,10 @@ export default function Team() {
           </motion.div>
 
           {/* ── Right: Dynamic Member Details Popup / Side Panel ── */}
-          <div style={{ minHeight: "420px", display: "flex", alignItems: "center" }}>
+          <div
+            className="team-details-col"
+            style={{ minHeight: "420px", display: "flex", alignItems: "center" }}
+          >
             <AnimatePresence mode="wait">
               {activeMember ? (
                 <motion.div
@@ -552,6 +566,7 @@ export default function Team() {
                   animate={{ opacity: 1, x: 0, scale: 1 }}
                   exit={{ opacity: 0, x: -12, scale: 0.98 }}
                   transition={{ duration: 0.28, ease }}
+                  className="team-details-card"
                   style={{
                     width: "100%",
                     background: "#FFFFFF",
@@ -595,7 +610,7 @@ export default function Team() {
 
                   <h2
                     style={{
-                      fontSize: "30px",
+                      fontSize: "clamp(24px, 4vw, 30px)",
                       fontWeight: 800,
                       color: "#0F172A",
                       letterSpacing: "-0.8px",
@@ -709,6 +724,7 @@ export default function Team() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -12 }}
                   transition={{ duration: 0.25 }}
+                  className="team-details-card"
                   style={{
                     width: "100%",
                     background: "#FFFFFF",
@@ -749,7 +765,7 @@ export default function Team() {
                       marginBottom: "24px",
                     }}
                   >
-                    Hover over any developer in the team photo (or select a name below) to highlight them and view their background.
+                    Hover or tap any developer in the team photo (or select a name below) to highlight them and view their background.
                   </p>
 
                   {/* Quick interactive directory list */}
@@ -765,6 +781,11 @@ export default function Team() {
                         key={m.id}
                         onMouseEnter={() => setHoveredId(m.id)}
                         onMouseLeave={() => setHoveredId(null)}
+                        onClick={() =>
+                          setHoveredId((prev) =>
+                            prev === m.id ? null : m.id
+                          )
+                        }
                         style={{
                           padding: "14px 16px",
                           borderRadius: "14px",
@@ -802,6 +823,7 @@ export default function Team() {
                             fontSize: "13px",
                             fontWeight: 700,
                             color: "#2563EB",
+                            marginLeft: "8px",
                           }}
                         >
                           →
@@ -820,9 +842,84 @@ export default function Team() {
         @media (max-width: 960px) {
           .team-stage-grid {
             grid-template-columns: 1fr !important;
+            gap: 24px !important;
+          }
+          .team-details-col {
+            min-height: auto !important;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .team-section {
+            padding: 92px 12px 60px !important;
+          }
+          .team-header {
+            margin-bottom: 24px !important;
+          }
+          .team-stage-card {
+            padding: 16px 0 0 !important;
+            border-radius: 22px !important;
           }
           .composite-photo-row {
             height: 340px !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            justify-content: center !important;
+          }
+          /* Prevent flex-shrink and visually center the 3 cutouts on mobile */
+          .member-slot {
+            flex-shrink: 0 !important;
+          }
+          .member-left {
+            width: 54% !important;
+            height: 345px !important;
+            margin-left: -13% !important;
+            margin-right: -20% !important;
+          }
+          .member-center {
+            width: 50% !important;
+            height: 305px !important;
+          }
+          .member-right {
+            width: 51% !important;
+            height: 335px !important;
+            margin-left: -23% !important;
+            margin-right: -2% !important;
+          }
+          .member-img-lavindu {
+            transform: scale(1.08) translateY(8px) !important;
+          }
+          .member-img-rusira {
+            transform: scale(1) !important;
+          }
+          .member-img-niduka {
+            transform: scale(1) !important;
+          }
+          .team-details-card {
+            padding: 24px 20px !important;
+            border-radius: 20px !important;
+          }
+        }
+
+        @media (max-width: 400px) {
+          .composite-photo-row {
+            height: 305px !important;
+          }
+          .member-left {
+            width: 56% !important;
+            height: 310px !important;
+            margin-left: -14% !important;
+            margin-right: -21% !important;
+          }
+          .member-center {
+            width: 52% !important;
+            height: 275px !important;
+          }
+          .member-right {
+            width: 53% !important;
+            height: 300px !important;
+            margin-left: -24% !important;
+            margin-right: -2% !important;
           }
         }
       `}</style>
