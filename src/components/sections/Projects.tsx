@@ -150,7 +150,7 @@ export default function Products() {
               margin: "0 auto",
             }}
           >
-            We ship focused, AI-powered tools that solve specific, painful business problems — and keep getting better.
+            We ship focused, AI-powered tools that solve specific, painful business problems.
           </motion.p>
         </div>
 
@@ -252,7 +252,7 @@ export default function Products() {
                   maxWidth: "440px",
                 }}
               >
-                AI-powered supplier risk monitoring that detects disruptions before they reach your operations — in real time.
+                AI-powered supplier risk monitoring that detects disruptions before they reach your operations in real time.
               </p>
 
               {/* Feature list */}

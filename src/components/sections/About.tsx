@@ -17,7 +17,7 @@ const VALUES = [
   },
   {
     title: "Radical transparency",
-    body: "Our products show their reasoning. Our team communicates openly. No black boxes — ever.",
+    body: "Our products show their reasoning. Our team communicates openly. No black boxes.",
     iconColor: "#7C3AED",
     iconBg: "rgba(124, 58, 237, 0.1)",
     icon: (
@@ -29,7 +29,7 @@ const VALUES = [
   },
   {
     title: "Enterprise trust",
-    body: "Security and reliability aren't features — they're foundations we build everything else on top of.",
+    body: "Security and reliability aren't features. They are foundations we build everything else on top of.",
     iconColor: "#16A34A",
     iconBg: "rgba(22, 163, 74, 0.1)",
     icon: (
@@ -40,7 +40,7 @@ const VALUES = [
   },
   {
     title: "Genuine innovation",
-    body: "We build things that didn't exist before — not wrappers around existing tools with a new coat of paint.",
+    body: "We build things that didn't exist before - not wrappers around existing tools with a new coat of paint.",
     iconColor: "#D97706",
     iconBg: "rgba(217, 119, 6, 0.1)",
     icon: (
@@ -173,7 +173,7 @@ export default function About() {
               transition={{ duration: 0.5, ease, delay: 0.19 }}
               style={{ fontSize: "16px", lineHeight: 1.75, color: "#475569" }}
             >
-              Our team brings together engineers, designers, and domain experts who believe the best technology disappears into the workflow — invisible until you can&apos;t imagine working without it.
+              Our team brings together engineers, designers, and domain experts who believe the best technology disappears into the workflow - invisible until you can&apos;t imagine working without it.
             </motion.p>
           </div>
 
@@ -247,7 +247,7 @@ export default function About() {
             </p>
 
             <p style={{ fontSize: "14px", lineHeight: 1.75, color: "#94A3B8" }}>
-              We founded Nexalyze because too many companies operate blind — reacting to failures that could have been predicted. We&apos;re changing that by building software that surfaces the right signal at the right time.
+              We founded Nexalyze because too many companies operate blind - reacting to failures that could have been predicted. We&apos;re changing that by building software that surfaces the right signal at the right time.
             </p>
 
             <div

@@ -425,7 +425,7 @@ export default function Hero() {
                   flexShrink: 0,
                 }}
               />
-              Nexalyze — AI Software &amp; Intelligence
+              Nexalyze - AI Software &amp; Intelligence
             </span>
           </motion.div>
 
@@ -511,7 +511,7 @@ export default function Hero() {
                 color: "#334155",
               }}
             >
-              To empower modern enterprises with predictive AI intelligence that turns complex data into clarity — enabling teams to anticipate challenges, automate decisions, and scale with confidence.
+              To empower modern enterprises with predictive AI intelligence that turns complex data into clarity - enabling teams to anticipate challenges, automate decisions, and scale with confidence.
             </p>
           </motion.div>
 
